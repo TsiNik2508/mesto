@@ -21,5 +21,7 @@
 @import url(../blocks/element/__button/element__button.css);
 @import url(../blocks/element/__button/__active/element__button__active.css);
 @import url(../blocks/element/__info/element__info.css);
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__info/footer__info.css);
 
 
