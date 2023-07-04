@@ -1,4 +1,4 @@
-.popup__input_type_name {
+.popup__input_type-bio {
   box-sizing: border-box;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
@@ -14,13 +14,13 @@
 }
 
 @media screen and (max-width: 767px) {
-  .popup__input_type_name{
+  .popup__input_type_bio{
   width: 270px;
   }
 }
 
 @media screen and (max-width: 320px) {
-  .popup__input_type_name {
+  .popup__input_type_bio {
   width: 238px;
   margin-bottom: 31px;
   }
