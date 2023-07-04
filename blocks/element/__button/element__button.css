@@ -1,0 +1,17 @@
+.element__button {
+  background-image: url(../../../images/Vector\ \(Stroke\).svg);
+  right: 20px;
+  bottom: 30px;
+  width: 22px;
+  height: 19px;
+  position: absolute;
+  background-color: inherit;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0;
+  cursor: pointer;
+}
+
+.element__button:hover {
+  opacity: .5;
+}

@@ -11,15 +11,15 @@
 
 @media screen and (max-width: 980px) {
 .header {
-  width: calc(100% - 80px);
+  max-width: 320px;
+  margin: 28px auto 0;
 }
 }
 
 @media screen and (max-width: 320px) {
 .header {
-  width: 100%;
   max-width: 320px;
-  margin: 0;
+  margin: 28px auto 0 ;
   margin-top: 28px;
 }
 }
