@@ -23,5 +23,13 @@
 @import url(../blocks/element/__info/element__info.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__info/footer__info.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__content/popup__content.css);
+@import url(../blocks/popup/__close/popup__close.css);
+@import url(../blocks/popup/__open/popup__open.css);
+@import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__button/popup__button.css);
+@import url(../blocks/popup/__input_type_name/popup__input_type_name.css);
+@import url(../blocks/popup/__input_type_bio/popup__input_type_bio.css);
 
 
