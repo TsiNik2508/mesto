@@ -8,6 +8,12 @@
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 1280px) {
+  .profile__info {
+      margin-top: 30px;
+      }
+  }
+
 @media screen and (max-width: 320px) {
   .profile__info {
       margin: 0;
