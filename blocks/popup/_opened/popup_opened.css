@@ -1,0 +1,6 @@
+.popup_opened {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+}
+/*если убрать 'visibility', то попап - нивкакую не появляется, а "opacity" куратор сказал оставить для плавного появления
