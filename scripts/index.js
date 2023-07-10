@@ -6,6 +6,7 @@ const nameInput = popup.querySelector('.popup__input_type_name');
 const bioInput = popup.querySelector('.popup__input_type_bio'); 
 const titleElement = document.querySelector('.profile__title'); 
 const bioElement = document.querySelector('.profile__bio'); 
+const formElement = popup.querySelector('.popup__form');
 
 
 function openPopup() { 
@@ -29,5 +30,5 @@ function handleFormSubmit(evt) {
  
 editButton.addEventListener('click', openPopup); 
 closeButton.addEventListener('click', closePopup); 
-saveButton.addEventListener('click', handleFormSubmit); //если сделать submit, то страница перезагружается и данные не сохранятся
+formElement.addEventListener('submit', handleFormSubmit);
 
