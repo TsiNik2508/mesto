@@ -1,15 +1,17 @@
 .profile__info {
-  margin: 0 0 0 30px;
-  padding: 0;
-  display: flex;
-  max-width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  box-sizing: border-box;
+  max-width: 336px;
+  width: 100%;
+  height: 100%;
+  margin: 25px 26px 25px;
 }
 
 @media screen and (max-width: 320px) {
   .profile__info {
-      margin: 0;
-      }
+    margin: 22.5px auto 36px;
+    max-width: 282px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+}

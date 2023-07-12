@@ -1,16 +1,16 @@
 .profile__info-box {
-  margin: 0;
-  padding: 0;
-  gap: 18px;
-  max-width: 100%;
-  box-sizing: border-box;
-  position: relative;
   display: flex;
-  align-items: baseline;
+  margin-top: 0;
+  margin-bottom: 6px;
+  justify-content: space-between;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 320px) {
   .profile__info-box {
-      gap: 10px;
+    margin: 0;
+    margin-bottom: 8px;
+    align-items: baseline;
+    gap: 10px;
+    justify-content: normal;
       }
   }
