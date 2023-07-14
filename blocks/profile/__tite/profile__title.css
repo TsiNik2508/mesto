@@ -5,7 +5,7 @@
   line-height: 48px;
   font-weight: 500;
   text-overflow: ellipsis;
-  max-width: calc(100% - 30px);
+  max-width: 294px;
   white-space: nowrap;
   width: 100%;
 }
@@ -15,7 +15,8 @@
   margin-left: 25px;
   font-size: 27px;
   line-height: 33px;
-  text-align: center;
+  padding: 22px 0 0 26px;
+  max-width: 230px;
   }
   
 }
