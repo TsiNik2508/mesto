@@ -1,27 +1,19 @@
 .popup__input {
+  margin: 0;
+  padding: 13px 0;
   box-sizing: border-box;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   width: 100%;
-  margin: 0;
   color: #000000;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  padding-bottom: 5px;
-  padding-top: 30px;
-}
-
-@media screen and (max-width: 767px) {
-  .popup__input {
-    width: 270px;
-  }
 }
 
 @media screen and (max-width: 320px) {
   .popup__input {
     width: 238px;
-    margin-bottom: 30px;
   }
 }

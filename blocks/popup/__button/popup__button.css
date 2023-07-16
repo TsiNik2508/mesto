@@ -3,6 +3,7 @@
   padding: 14px 0 18px 0;
   border: none;
   width: 358px;
+  height: 50px;
   background: #000;
   border-radius: 2px;
   font-weight: 400;
@@ -28,7 +29,6 @@
 
 @media screen and (max-width: 320px) {
   .popup__button {
-    margin-top: 15px;
     width: 238px;
     height: 46px;
     font-size: 14px;
