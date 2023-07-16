@@ -5,8 +5,8 @@
   height: 24px;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: inherit;
   border: 1px solid #fff;
+  background-color: inherit;
   cursor: pointer;
   transition: opacity .2s ease-in-out;
 }
@@ -19,5 +19,6 @@
   .profile__edit-button {
     width: 18px;
     height: 18px;
+    background-size: 17px 17px;
   }
 }
