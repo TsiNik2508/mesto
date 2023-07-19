@@ -1,22 +1,15 @@
 .profile__info-box {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  position: relative;
-  max-width: 100%;
+  max-width: 336px;
+  width: 100%;
   display: flex;
+  justify-content: space-between;
   align-items: baseline;
-  gap: 18px;
 }
 
-@media screen and (max-width: 768px) {
-  .profile__info-box {
-    gap: 10px;
-      }
-  }
-
-  @media screen and (max-width: 320px) {
+  @media screen and (max-width: 720px) {
     .profile__info-box {
-      margin-right: 66px;
+      max-width: 282px;
+      padding-bottom: 14px;
+      justify-content: center;
         }
     }

@@ -14,16 +14,16 @@
     </header>
     <main class="main">
         <section class="profile">
-            <div class="profile__container">
-                <img src="./images/image.jpg" alt="Фотография Жак-Ив Кусто" class="profile__avatar">
-                <div class="profile__info">
-                    <div class="profile__info-box">
-                        <h1 class="profile__title">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button" type="button"></button>
-                    </div>
-                    <p class="profile__bio">Исследователь океана</p>
+            <!-- <div class="profile__container"> -->
+            <img src="./images/avatar.png" alt="Фотография Жак-Ив Кусто" class="profile__avatar">
+            <div class="profile__info">
+                <div class="profile__info-box">
+                    <h1 class="profile__title">Жак-Ив Кусто</h1>
+                    <button class="profile__edit-button" type="button"></button>
                 </div>
+                <p class="profile__bio">Исследователь океана</p>
             </div>
+            <!-- </div> -->
             <button class="profile__add-button" type="button"></button>
         </section>
         <section class="elements">
@@ -78,8 +78,8 @@
     <div class="popup">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
+            <h2 class="popup__title">Редактировать профиль</h2>
             <form class="popup__form" name="user">
-                <h2 class="popup__title">Редактировать профиль</h2>
                 <div class="popup__inputs">
                     <input class="popup__input popup__input_type_name" type="text" name="name" placeholder="Имя">
                     <input class="popup__input popup__input_type_bio" type="text" name="job" placeholder="Род занятий">
