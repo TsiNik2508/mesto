@@ -6,10 +6,10 @@
   align-items: baseline;
 }
 
-  @media screen and (max-width: 720px) {
-    .profile__info-box {
-      max-width: 282px;
-      padding-bottom: 14px;
-      justify-content: center;
-        }
-    }
+@media screen and (max-width: 720px) {
+  .profile__info-box {
+    max-width: 282px;
+    padding-bottom: 14px;
+    justify-content: center;
+  }
+}

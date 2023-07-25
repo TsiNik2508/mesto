@@ -1,0 +1,21 @@
+.element__thrash-button {
+  background-image: url(../../../images/Trash-button.svg);
+  background-color: transparent;
+  padding: 0;
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  bottom: 322px;
+  left: 244px;
+  box-sizing: border-box;
+  border: none;
+  display: flex;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.element__thrash-button:hover {
+  opacity: 0.5;
+}

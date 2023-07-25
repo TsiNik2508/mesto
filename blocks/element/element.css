@@ -1,7 +1,9 @@
 .element {
-  max-width: 282px;
   margin: 0;
-  background: #FFFFFF;
-  border-radius: 10px 10px 10px 10px;
+  padding: 0;
+  max-width: 282px;
+  display: flex;
+  flex-wrap: wrap;
   position: relative;
+  box-sizing: border-box;
 }
