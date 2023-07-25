@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Функция для открытия попапа с увеличенным изображением и названием карточки
   function openImagePopup(cardData) {
-    const cardImagePopup = document.querySelector('.popup__type_card');
+    const cardImagePopup = document.querySelector('.popup_type-card');
     const cardImage = cardImagePopup.querySelector('.popup__img');
     const cardName = cardImagePopup.querySelector('.popup__card-name');
     cardImage.src = cardData.link;
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Функция для закрытия попапа с увеличенным изображением
   function closeImagePopup() {
-    const cardImagePopup = document.querySelector('.popup__type_card');
+    const cardImagePopup = document.querySelector('.popup_type-card');
     cardImagePopup.classList.remove('popup_opened');
   }
 
