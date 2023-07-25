@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const editButton = document.querySelector('.profile__edit-button');
   const addButton = document.querySelector('.profile__add-button');
-  const editPopup = document.querySelector('.popup__type-edit');
-  const addPopup = document.querySelector('.popup__type-add');
+  const editPopup = document.querySelector('.popup__type_edit');
+  const addPopup = document.querySelector('.popup__type_add');
   const closeButtonEdit = editPopup.querySelector('.popup__close');
   const closeButtonAdd = addPopup.querySelector('.popup__close');
   const nameInput = editPopup.querySelector('.popup__input_type_name');
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Функция для открытия попапа с увеличенным изображением и названием карточки
   function openImagePopup(cardData) {
-    const cardImagePopup = document.querySelector('.popup__type-card');
+    const cardImagePopup = document.querySelector('.popup__type_card');
     const cardImage = cardImagePopup.querySelector('.popup__img');
     const cardName = cardImagePopup.querySelector('.popup__card-name');
     cardImage.src = cardData.link;
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Функция для закрытия попапа с увеличенным изображением
   function closeImagePopup() {
-    const cardImagePopup = document.querySelector('.popup__type-card');
+    const cardImagePopup = document.querySelector('.popup__type_card');
     cardImagePopup.classList.remove('popup_opened');
   }
 
