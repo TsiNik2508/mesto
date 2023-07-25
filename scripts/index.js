@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const editButton = document.querySelector('.profile__edit-button');
   const addButton = document.querySelector('.profile__add-button');
-  const editPopup = document.querySelector('.popup__type_edit');
-  const addPopup = document.querySelector('.popup__type_add');
+  const editPopup = document.querySelector('.popup_type-edit');
+  const addPopup = document.querySelector('.popup_type-add');
   const closeButtonEdit = editPopup.querySelector('.popup__close');
   const closeButtonAdd = addPopup.querySelector('.popup__close');
   const nameInput = editPopup.querySelector('.popup__input_type_name');
