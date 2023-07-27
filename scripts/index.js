@@ -31,6 +31,30 @@ document.addEventListener('DOMContentLoaded', function () {
     popup.classList.remove('popup_opened');
   }
 
+  // Функция для общего закрытия попапов при клике на оверлей
+function handleOverlayClick(evt) {
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(evt.target);
+  }
+}
+
+// Функция для закрытия попапов при нажатии на клавишу Esc
+function handleEscKey(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    if (openedPopup) {
+      closePopup(openedPopup);
+    }
+  }
+}
+
+// Добавление слушателя для закрытия попапов при клике на оверлей
+document.addEventListener('click', handleOverlayClick);
+
+// Добавление слушателя для закрытия попапов при нажатии на клавишу Esc
+document.addEventListener('keydown', handleEscKey);
+
+
   // Функция открытия попапа редактирования профиля
   function openEditProfilePopup() {
     console.log("Button Clicked");
