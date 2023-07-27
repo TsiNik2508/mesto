@@ -1,48 +1,86 @@
-// Форма "Редактировать профиль"
-const profileForm = document.forms.user;
-const nameInput = profileForm.elements.name;
-const bioInput = profileForm.elements.job;
-const saveButton = profileForm.querySelector('.popup__button');
+// вызов enableValidation для формы "Редактировать профиль"
+enableValidation({
+  formSelector: '.popup__form_edit',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+});
 
-function validateProfileForm() {
-  const isNameValid = nameInput.checkValidity();
-  const isBioValid = bioInput.checkValidity();
+// вызов enableValidation для формы "Новое место"
+enableValidation({
+  formSelector: '.popup__form_add',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+});
 
-  nameInput.nextElementSibling.textContent = nameInput.validationMessage;
-  bioInput.nextElementSibling.textContent = bioInput.validationMessage;
 
-  // Убираем класс popup__button_disabled, если поля валидны
-  saveButton.disabled = !(isNameValid && isBioValid);
-  if (isNameValid && isBioValid) {
-    saveButton.classList.remove('popup__button_disabled');
+// Функция для отображения ошибки в поле ввода
+function showInputError(inputElement, errorMessage, inputErrorClass, errorClass) {
+  const errorElement = inputElement.closest('.popup__inputs').querySelector('.popup__input-error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(errorClass);
+  inputElement.classList.add(inputErrorClass);
+}
+
+function hideInputError(inputElement, inputErrorClass, errorClass) {
+  const errorElement = inputElement.closest('.popup__inputs').querySelector('.popup__input-error');
+  errorElement.textContent = '';
+  errorElement.classList.remove(errorClass);
+  inputElement.classList.remove(inputErrorClass);
+}
+
+function isValid(inputElement) {
+  return inputElement.checkValidity();
+}
+function toggleSubmitButton(form, submitButtonSelector, inactiveButtonClass, inputSelector) {
+  const inputs = Array.from(form.querySelectorAll(inputSelector));
+  const submitButton = form.querySelector(submitButtonSelector);
+  const isFormValid = inputs.every(isValid);
+  submitButton.disabled = !isFormValid;
+  if (isFormValid) {
+    submitButton.classList.remove(inactiveButtonClass);
   } else {
-    saveButton.classList.add('popup__button_disabled');
+    submitButton.classList.add(inactiveButtonClass);
   }
 }
 
-profileForm.addEventListener('input', validateProfileForm);
+// Функция для установки слушателей событий для полей ввода формы
+function setEventListeners(form, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass) {
+  const inputs = Array.from(form.querySelectorAll(inputSelector));
+  const submitButton = form.querySelector(submitButtonSelector);
 
+  inputs.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      const isInputValid = isValid(inputElement);
 
-// Форма "Новое место"
-const placeForm = document.forms.newCard;
-const cardNameInput = placeForm.elements['card-name'];
-const linkInput = placeForm.elements.link;
-const addButton = placeForm.querySelector('.popup__button');
-
-function validatePlaceForm() {
-  const isCardNameValid = cardNameInput.checkValidity();
-  const isLinkValid = linkInput.checkValidity();
-
-  cardNameInput.nextElementSibling.textContent = cardNameInput.validationMessage;
-  linkInput.nextElementSibling.textContent = linkInput.validationMessage;
-
-  // Убираем класс popup__button_disabled, если поля валидны
-  addButton.disabled = !(isCardNameValid && isLinkValid);
-  if (isCardNameValid && isLinkValid) {
-    addButton.classList.remove('popup__button_disabled');
-  } else {
-    addButton.classList.add('popup__button_disabled');
-  }
+      if (isInputValid) {
+        hideInputError(inputElement, inputErrorClass, errorClass);
+      } else {
+        const errorMessage = inputElement.validationMessage;
+        showInputError(inputElement, errorMessage, inputErrorClass, errorClass);
+      }
+      toggleSubmitButton(form, submitButtonSelector, inactiveButtonClass, inputSelector);
+    });
+  });
 }
 
-placeForm.addEventListener('input', validatePlaceForm);
+// Функция для включения валидации формы
+function enableValidation(settings) {
+  const { formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass } = settings;
+
+  const forms = Array.from(document.querySelectorAll(formSelector));
+  forms.forEach((form) => {
+    form.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
+
+    // Устанавливаем слушатели событий для полей ввода и кнопки отправки формы
+    setEventListeners(form, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass);
+    toggleSubmitButton(form, submitButtonSelector, inactiveButtonClass, inputSelector);
+  });
+}

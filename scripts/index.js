@@ -24,17 +24,24 @@ document.addEventListener('DOMContentLoaded', function () {
   // Функция открытия попапа
   function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('click', handleOverlayClick);
+    document.addEventListener('keydown', handleEscKey);
   }
 
   // Функция закрытия попапа
   function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('click', handleOverlayClick);
+    document.removeEventListener('keydown', handleEscKey);
   }
 
   // Функция для общего закрытия попапов при клике на оверлей
 function handleOverlayClick(evt) {
   if (evt.target.classList.contains('popup_opened')) {
-    closePopup(evt.target);
+    const openedPopup = document.querySelector('.popup_opened');
+    if (openedPopup) {
+      closePopup(openedPopup);
+    }
   }
 }
 
