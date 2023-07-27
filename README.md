@@ -1,8 +1,5 @@
 # Проект "Mesto"
 
-![Mesto Preview]((![image](https://github.com/TsiNik2508/mesto/assets/114494944/d99d633b-e047-4b89-a3f0-5d02f40be500)
-)
-
 ## Описание
 
 Проект "Mesto" был создан в рамках учебной программы [Яндекс.Практикум](https://practicum.yandex.ru) по специальности ["Веб-разработчик"](https://practicum.yandex.ru/web/). Это интерактивная веб-страница, на которой используются HTML, CSS и JavaScript для создания динамического контента.
