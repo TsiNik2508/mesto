@@ -71,10 +71,13 @@ document.addEventListener('keydown', handleEscKey);
   }
 
   // Функция открытия попапа добавления новой карточки
-  function openAddCardPopup() {
-    formElementAdd.reset(); // Очищаем поля ввода формы добавления карточки
-    openPopup(popupAddCard);
-  }
+// Функция открытия попапа добавления новой карточки
+function openAddCardPopup() {
+  formElementAdd.reset(); // Очищаем поля ввода формы добавления карточки
+  toggleSubmitButton(formElementAdd, '.popup__button', 'popup__button_disabled', '.popup__input');
+  openPopup(popupAddCard);
+}
+
 
   // Функция закрытия попапа редактирования профиля
   function closeEditProfilePopup() {
