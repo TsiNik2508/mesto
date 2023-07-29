@@ -55,12 +55,6 @@ function handleEscKey(evt) {
   }
 }
 
-// Добавление слушателя для закрытия попапов при клике на оверлей
-document.addEventListener('click', handleOverlayClick);
-
-// Добавление слушателя для закрытия попапов при нажатии на клавишу Esc
-document.addEventListener('keydown', handleEscKey);
-
 
   // Функция открытия попапа редактирования профиля
   function openEditProfilePopup() {

@@ -1,19 +1,19 @@
 // Функция для отображения ошибки в поле ввода
-function showInputError(inputElement, errorMessage, inputErrorClass, errorClass) {
-  const popupInputsElement = inputElement.parentElement;
-  const errorElement = popupInputsElement.querySelector('.popup__input-error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(errorClass);
-  inputElement.classList.add(inputErrorClass);
-}
-
-// Функция для скрытия ошибки в поле ввода
-function hideInputError(inputElement, inputErrorClass, errorClass) {
-  const popupInputsElement = inputElement.parentElement;
-  const errorElement = popupInputsElement.querySelector('.popup__input-error');
-  errorElement.textContent = '';
-  errorElement.classList.remove(errorClass);
-  inputElement.classList.remove(inputErrorClass);
+function showInputError(inputElement, errorMessage, inputErrorClass, errorClass) { 
+  const popupInputsElement = inputElement.closest('.popup__inputs'); 
+  const errorElement = popupInputsElement.querySelector('.popup__input-error'); 
+  errorElement.textContent = errorMessage; 
+  errorElement.classList.add(errorClass); 
+  inputElement.classList.add(inputErrorClass); 
+} 
+ 
+// Функция для скрытия ошибки в поле ввода 
+function hideInputError(inputElement, inputErrorClass, errorClass) { 
+  const popupInputsElement = inputElement.closest('.popup__inputs'); 
+  const errorElement = popupInputsElement.querySelector('.popup__input-error'); 
+  errorElement.textContent = ''; 
+  errorElement.classList.remove(errorClass); 
+  inputElement.classList.remove(inputErrorClass); 
 }
 
 // Функция для проверки валидности поля ввода
