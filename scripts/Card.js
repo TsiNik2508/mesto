@@ -1,8 +1,14 @@
 class Card {
   // Конструктор класса, принимает данные и селектор шаблона карточки
-  constructor(data, templateSelector) {
-    this._data = data; // Данные карточки (название, ссылка)
-    this._templateSelector = templateSelector; // Селектор шаблона карточки
+  constructor(data, templateSelector, handleCardImageClick) {
+    this._data = data;
+    this._templateSelector = templateSelector;
+    this._handleCardImageClick = handleCardImageClick;
+    this._element = this._getTemplate();
+    this._likeButton = this._element.querySelector('.element__button');
+    this._deleteButton = this._element.querySelector('.element__thrash-button');
+    this._cardImage = this._element.querySelector('.element__img');
+    this._setEventListeners();
   }
 
   // Приватный метод, получает содержимое шаблона карточки
@@ -12,60 +18,36 @@ class Card {
   }
 
   // Приватный метод, обрабатывает клик по кнопке "Лайк"
-  _handleLikeButtonClick(likeButton) {
-    likeButton.classList.toggle('element__button_active');
+  _handleLikeButtonClick = () => {
+    this._likeButton.classList.toggle('element__button_active');
   }
 
   // Приватный метод, обрабатывает клик по кнопке "Удалить"
-  _handleDeleteButtonClick(cardElement) {
-    cardElement.remove();
+  _handleDeleteButtonClick = () => {
+    this._element.remove();
+    this._element = null;
   }
 
   // Приватный метод, обрабатывает клик по изображению карточки
-  _handleCardImageClick(cardImage) {
-    const cardData = {
-      name: cardImage.alt,
-      link: cardImage.src
-    };
-    openImagePopup(cardData); // Вызываем функцию открытия попапа с изображением
+  _handleCardImageClick = () => {
+    this._handleCardImageClick(this._data);
   }
 
   // Приватный метод, назначает обработчики событий элементам карточки
   _setEventListeners() {
-    const likeButton = this._element.querySelector('.element__button');
-    const deleteButton = this._element.querySelector('.element__thrash-button');
-    const cardImage = this._element.querySelector('.element__img');
-
-    // Обработчик клика по кнопке "Лайк"
-    likeButton.addEventListener('click', () => {
-      this._handleLikeButtonClick(likeButton);
-    });
-
-    // Обработчик клика по кнопке "Удалить"
-    deleteButton.addEventListener('click', () => {
-      this._handleDeleteButtonClick(this._element);
-    });
-
-    // Обработчик клика по изображению карточки
-    cardImage.addEventListener('click', () => {
-      this._handleCardImageClick(cardImage);
-    });
+    this._likeButton.addEventListener('click', this._handleLikeButtonClick);
+    this._deleteButton.addEventListener('click', this._handleDeleteButtonClick);
+    this._cardImage.addEventListener('click', this._handleCardImageClick);
   }
 
-  // Публичный метод
   generateCard() {
-    this._element = this._getTemplate(); 
-    this._setEventListeners(); // Назначаем обработчики событий
+    const { name, link } = this._data;
 
-    const cardImage = this._element.querySelector('.element__img');
-    const cardTitle = this._element.querySelector('.element__title');
+    this._cardImage.src = link;
+    this._cardImage.alt = name;
+    this._element.querySelector('.element__title').textContent = name;
 
-    // Заполняем данные карточки (изображение, название)
-    cardImage.src = this._data.link;
-    cardImage.alt = this._data.name;
-    cardTitle.textContent = this._data.name;
-
-    return this._element; // Возвращаем сгенерированный DOM-элемент карточки
+    return this._element;
   }
 }
 

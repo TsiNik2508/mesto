@@ -34,13 +34,13 @@ class FormValidator {
   }
 
   //Переключаем состояние кнопки отправки формы
-  _toggleButtonState() {
+  toggleButtonState() {
     if (this._hasInvalidInput()) {
-      this._submitButton.disabled = true; // Отключаем кнопку
-      this._submitButton.classList.add(this._config.inactiveButtonClass); // Добавляем класс для стилизации неактивной кнопки
+      this._submitButton.disabled = true;
+      this._submitButton.classList.add(this._config.inactiveButtonClass);
     } else {
-      this._submitButton.disabled = false; // Включаем кнопку
-      this._submitButton.classList.remove(this._config.inactiveButtonClass); // Удаляем класс стилизации неактивной кнопки
+      this._submitButton.disabled = false;
+      this._submitButton.classList.remove(this._config.inactiveButtonClass);
     }
   }
 
@@ -54,7 +54,7 @@ class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState();
+        this.toggleButtonState();
       });
     });
   }
@@ -62,11 +62,11 @@ class FormValidator {
   //Активируем валидацию для формы
   enableValidation() {
     this._formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault(); // Отменяем стандартное поведение отправки формы
+      evt.preventDefault(); 
     });
 
-    this._setEventListeners(); // Назначаем обработчики событий на поля ввода
-    this._toggleButtonState(); // Инициализируем состояние кнопки отправки
+    this._setEventListeners(); 
+    this.toggleButtonState(); 
   }
 }
 
