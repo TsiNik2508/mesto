@@ -143,18 +143,6 @@ document.addEventListener('DOMContentLoaded', function () {
     openPopup(popupCard);
   }
 
-  // Обработчик клика на контейнер с карточками
-  elementsContainer.addEventListener('click', function(evt) {
-    if (evt.target.classList.contains('element__img')) {
-      const cardElement = evt.target.closest('.element');
-      const cardData = {
-        name: cardElement.querySelector('.element__title').textContent,
-        link: cardElement.querySelector('.element__img').src
-      };
-      openImagePopup(cardData);
-    }
-  });
-
   // Создание экземпляров классов FormValidator для валидации форм
   const editProfileValidator = new FormValidator(
     {
