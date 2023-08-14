@@ -29,7 +29,7 @@ class Card {
   }
 
   // Приватный метод, обрабатывает клик по изображению карточки
-  _handleCardImageClick = () => {
+  _handleImageClick = () => {
     this._handleCardImageClick(this._data);
   }
 
@@ -37,7 +37,7 @@ class Card {
   _setEventListeners() {
     this._likeButton.addEventListener('click', this._handleLikeButtonClick);
     this._deleteButton.addEventListener('click', this._handleDeleteButtonClick);
-    this._cardImage.addEventListener('click', this._handleCardImageClick);
+    this._cardImage.addEventListener('click', this._handleImageClick);
   }
 
   generateCard() {
