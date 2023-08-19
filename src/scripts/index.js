@@ -1,3 +1,4 @@
+import '../pages/index.css';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import { initialCards } from './constants.js';
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const addCardPopup = new PopupWithForm('.popup_type-add', (data) => {
     addCardToPage(data);
+    addCardPopup.close(); 
   });
   addCardPopup.setEventListeners();
 
