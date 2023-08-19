@@ -9,8 +9,8 @@ module.exports = {
             chrome: '67',
             safari: '11.1',
           },
-          useBuiltIns: 'entry', // Для полифиллов
-          corejs: '3.18.3', // Версия Core.js
+          useBuiltIns: 'entry', 
+          corejs: '3.18.3', 
         },
       ],
     ],
