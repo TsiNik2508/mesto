@@ -1,9 +1,8 @@
 class Card {
-  // Конструктор класса, принимает данные и селектор шаблона карточки
-  constructor(data, templateSelector, handleCardImageClick) {
+  constructor(data, templateSelector, handleCardClick) {
     this._data = data;
     this._templateSelector = templateSelector;
-    this._handleCardImageClick = handleCardImageClick;
+    this._handleCardClick = handleCardClick; // Функция для открытия попапа с изображением
     this._element = this._getTemplate();
     this._likeButton = this._element.querySelector('.element__button');
     this._deleteButton = this._element.querySelector('.element__thrash-button');
@@ -11,29 +10,24 @@ class Card {
     this._setEventListeners();
   }
 
-  // Приватный метод, получает содержимое шаблона карточки
   _getTemplate() {
     const template = document.querySelector(this._templateSelector).content;
     return template.querySelector('.element').cloneNode(true);
   }
 
-  // Приватный метод, обрабатывает клик по кнопке "Лайк"
   _handleLikeButtonClick = () => {
     this._likeButton.classList.toggle('element__button_active');
   }
 
-  // Приватный метод, обрабатывает клик по кнопке "Удалить"
   _handleDeleteButtonClick = () => {
     this._element.remove();
     this._element = null;
   }
 
-  // Приватный метод, обрабатывает клик по изображению карточки
   _handleImageClick = () => {
-    this._handleCardImageClick(this._data);
+    this._handleCardClick(this._data); 
   }
 
-  // Приватный метод, назначает обработчики событий элементам карточки
   _setEventListeners() {
     this._likeButton.addEventListener('click', this._handleLikeButtonClick);
     this._deleteButton.addEventListener('click', this._handleDeleteButtonClick);
@@ -51,4 +45,4 @@ class Card {
   }
 }
 
-export default Card; 
+export default Card;
