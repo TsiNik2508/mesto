@@ -1,9 +1,0 @@
-.element {
-  margin: 0;
-  padding: 0;
-  max-width: 282px;
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
-  box-sizing: border-box;
-}
