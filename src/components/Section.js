@@ -12,7 +12,15 @@ class Section {
  
   addItem(element) { 
     this._container.prepend(element); 
-  } 
+  }
+
+  removeItem(cardId) {
+    const cardElement = this._container.querySelector(`[data-card-id="${cardId}"]`);
+    if (cardElement) {
+      cardElement.remove();
+    }
+  }
+  
 } 
  
 export default Section;
