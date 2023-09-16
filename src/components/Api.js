@@ -79,7 +79,7 @@ class Api {
             authorization: this.headers.authorization,
             'Content-Type': this.headers['Content-Type'],
           },
-          body: JSON.stringify({ avatar: avatarUrl }),
+          body: JSON.stringify({ avatar: avatarUrl}),
         })
           .then(this._checkResponse)
           .catch((error) => {
