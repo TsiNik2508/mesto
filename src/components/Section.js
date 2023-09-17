@@ -2,6 +2,7 @@ class Section {
   constructor({ renderer }, containerSelector) { 
     this._renderer = renderer; 
     this._container = document.querySelector(containerSelector); 
+    this._items = []; 
   } 
  
   renderItems(items) { 
@@ -20,7 +21,18 @@ class Section {
       cardElement.remove();
     }
   }
-  
+
+  updateLikes(cardId, newLikes) {
+    this._items.forEach((item) => {
+      if (item._data._id === cardId) {
+        item.updateLikes(newLikes);
+      }
+    });
+  }
+
+  setItems(items) {
+    this._items = items;
+  }
 } 
- 
+
 export default Section;
