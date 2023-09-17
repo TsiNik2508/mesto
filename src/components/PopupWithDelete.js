@@ -6,7 +6,7 @@ class PopupWithDelete extends Popup {
     this._handleFormSubmit = handleFormSubmit;
     this._form = this._popup.querySelector('.popup__form');
     this._submitButton = this._form.querySelector('.popup__button');
-    this._cardId = null; 
+    this._cardId = null;
   }
 
   setCardId(cardId) {
@@ -15,21 +15,22 @@ class PopupWithDelete extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
+  
+    this._popup.querySelector('.popup__close').addEventListener('click', () => {
+      console.log('Close button clicked'); 
+      this.close();
+    });
+  
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
+      console.log('Form submitted'); 
       this._handleFormSubmit();
     });
   }
-
-  setEventListeners() {
-    super.setEventListeners();
-    this._popup.querySelector('.popup__close').addEventListener('click', () => {
-      this.close();
-    });
-  }
   
+
   open(cardId) {
-    this.setCardId(cardId); 
+    this.setCardId(cardId);
     super.open();
   }
 }

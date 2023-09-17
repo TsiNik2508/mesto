@@ -9,7 +9,7 @@ import PopupWithDelete from '../components/PopupWithDelete.js';
 import PopupWithAvatar from '../components/PopupWithAvatar.js'; 
 import Card from '../components/Card.js'; 
  
-let userId; 
+let UserId; 
  
 // Создание объекта Api 
 const api = new Api({ 
@@ -92,19 +92,20 @@ function handleCardDelete(cardId) {
 } 
  
 // Создание карточки 
-function createCardElement(cardData, userId) { 
-  const isOwner = cardData.owner && cardData.owner._id === userId; 
-  const isLiked = cardData.likes ? cardData.likes.some((like) => like._id === userId) : false; 
+function createCardElement(cardData, UserId) { 
+  const isOwner = cardData.owner && cardData.owner._id === UserId; 
+  const isLiked = cardData.likes ? cardData.likes.some((like) => like._id === UserId) : false; 
   const card = new Card(
     cardData,
     '#card-template',
     openImagePopup,
-    api.likeCard, 
-    api.unlikeCard, 
+    (cardId) => api.likeCard(cardId), 
+    (cardId) => api.unlikeCard(cardId), 
     handleCardDelete,
     isOwner,
     isLiked
   );
+  
 
   return card.generateCard(); 
 }
@@ -131,7 +132,7 @@ buttonOpenAddCardPopup.addEventListener('click', () => {
  
 // Функция добавления карточки на страницу 
 function addCardToPage(cardData) { 
-  const cardElement = createCardElement(cardData, userId); 
+  const cardElement = createCardElement(cardData, UserId); 
   cardList.addItem(cardElement); 
 }
 
@@ -141,7 +142,7 @@ const cardList = new Section(
   { 
     items: [], 
     renderer: (cardData) => { 
-      const cardHTML = createCardElement(cardData, userId); 
+      const cardHTML = createCardElement(cardData, UserId); 
       cardList.addItem(cardHTML); 
     }, 
   }, 
@@ -151,7 +152,7 @@ const cardList = new Section(
 // Загрузка данных с сервера и добавление начальных карточек 
 Promise.all([api.getUserInfo(), api.getInitialCards()]) 
   .then(([userData, initialCards]) => { 
-    userId = userData._id; 
+    UserId = userData._id; 
     userInfo.setUserInfo(userData); 
     cardList.renderItems(initialCards); 
  
