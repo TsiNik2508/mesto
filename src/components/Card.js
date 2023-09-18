@@ -27,16 +27,13 @@ class Card {
 
   _handleLikeButtonClick = () => {
     const isLiked = this._likeButton.classList.contains('element__button_active');
-    const cardId = this._data._id;
-  
+    const cardId = this._data._id; 
     if (isLiked) {
       this._handleUnlikeCard(cardId);
     } else {
-      this._handleLikeCard(cardId);
+      this._handleLikeCard(this); 
     }
   };
-  
-  
 
   _handleDeleteButtonClick = () => {
     this._handleDeleteClick(this._data._id);

@@ -216,13 +216,12 @@ function handleFormEditSubmit(data) {
 }
 
 // Функция постановки лайка
-function handleLikeCard(cardId) {
-  console.log('ID карточки:', cardId); 
+function handleLikeCard(card) {
   api
-    .likeCard(cardId)
+    .likeCard(card._data._id)
     .then((newLikes) => {
       console.log('Новые лайки:', newLikes); 
-      cardList.updateLikes(cardId, newLikes);
+      card.updateLikes(newLikes);
     })
     .catch((error) => {
       console.error(`Ошибка при постановке лайка: ${error}`);
