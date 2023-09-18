@@ -1,18 +1,18 @@
-class Section { 
-  constructor({ renderer }, containerSelector) { 
-    this._renderer = renderer; 
-    this._container = document.querySelector(containerSelector); 
-    this._items = []; 
-  } 
- 
-  renderItems(items) { 
-    items.forEach((item) => { 
-      this._renderer(item); 
-    }); 
-  } 
- 
-  addItem(element) { 
-    this._container.prepend(element); 
+class Section {
+  constructor({ renderer }, containerSelector) {
+    this._renderer = renderer;
+    this._container = document.querySelector(containerSelector);
+    this._items = [];
+  }
+
+  renderItems(items) {
+    items.forEach((item) => {
+      this._renderer(item);
+    });
+  }
+
+  addItem(element) {
+    this._container.prepend(element);
   }
 
   removeItem(cardId) {
@@ -33,6 +33,6 @@ class Section {
   setItems(items) {
     this._items = items;
   }
-} 
+}
 
-export default Section;
+export  { Section}  ;

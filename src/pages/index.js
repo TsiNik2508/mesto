@@ -1,13 +1,13 @@
-import '../pages/index.css'; 
-import FormValidator from '../components/FormValidator.js'; 
-import PopupWithImage from '../components/PopupWithImage.js'; 
-import PopupWithForm from '../components/PopupWithForm.js'; 
-import UserInfo from '../components/UserInfo.js'; 
-import Section from '../components/Section.js'; 
-import Api from '../components/Api.js'; 
-import PopupWithDelete from '../components/PopupWithDelete.js'; 
-import PopupWithAvatar from '../components/PopupWithAvatar.js'; 
-import Card from '../components/Card.js'; 
+import '../pages/index.css';
+import FormValidator from '../components/FormValidator.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import { Section}  from '../components/Section.js';
+import Api from '../components/Api.js';
+import PopupWithDelete from '../components/PopupWithDelete.js';
+import PopupWithAvatar from '../components/PopupWithAvatar.js';
+import { Card } from '../components/Card.js';
 
 let userId;
 
@@ -43,6 +43,31 @@ const avatarValidator = new FormValidator(
   },
   formElementAvatar
 );
+
+// Загрузка данных с сервера и добавление начальных карточек 
+Promise.all([api.getUserInfo(), api.getInitialCards()]) 
+  .then(([userData, initialCards]) => { 
+    console.log(initialCards);
+    userId = userData._id; 
+    userInfo.setUserInfo(userData); 
+    cardList.renderItems(initialCards); 
+ 
+    api.addCard({ 
+      name: 'Рик и Морти', 
+      link: 'https://srisovki.com/wp-content/uploads/2020/10/u_d0a8.jpg', 
+    }) 
+      .then((newCardData) => { 
+        console.log(newCardData); 
+        addCardToPage(newCardData); 
+      }) 
+      .catch((error) => { 
+        console.error(`Ошибка при добавлении карточки: ${error}`); 
+      }); 
+  }) 
+  .catch((error) => { 
+    console.error(`Ошибка при загрузке данных с сервера: ${error}`); 
+  }); 
+
 
 // Создание валидатора для формы добавления карточки
 const addCardValidator = new FormValidator(
@@ -95,19 +120,22 @@ function handleCardDelete(cardId) {
 function createCardElement(cardData) {
   const isOwner = cardData.owner && cardData.owner._id === userId;
   const isLiked = cardData.likes ? cardData.likes.some((like) => like._id === userId) : false;
-  const card = new Card(
-    cardData,
-    '#card-template',
-    openImagePopup,
-    handleLikeCard, 
-    handleUnlikeCard, 
-    handleCardDelete,
-    isOwner,
-    isLiked,
-    userId
-  );
+const card = new Card(
+  cardData,
+  '#card-template',
+  userId,
+  {
+    handleCardClick: openImagePopup,
+    handleCardDelete: handleCardDelete,
+    handleCardLike: handleCardLike,
+    handleCardDeleteLike: handleUnlikeCard,
+  }
+);
 
-  return card.generateCard();
+  
+  
+
+  return card.createCardElement();
 }
 
 // Создание валидатора для формы редактирования профиля
@@ -138,8 +166,11 @@ function addCardToPage(cardData) {
       return api.getInitialCards();
     })
     .then((initialCards) => {
-      cardList.setItems(initialCards); 
-      cardList.renderItems(initialCards);
+      cardList.setItems(initialCards);
+      initialCards.forEach((cardData) => {
+        const card = createCardElement(cardData); 
+        cardList.addItem(card); 
+      });
     })
     .catch((error) => {
       console.error(`Ошибка при загрузке данных с сервера: ${error}`);
@@ -214,32 +245,33 @@ function handleFormEditSubmit(data) {
       popupEditProfile.setSubmitButtonCaption('Сохранить');
     });
 }
-
-// Функция постановки лайка
-function handleLikeCard(card) {
-  api
-    .likeCard(card._data._id)
-    .then((newLikes) => {
-      console.log('Новые лайки:', newLikes); 
-      card.updateLikes(newLikes);
+// Функция для обработки лайка карточки
+function handleCardLike(cardId, isLiked) {
+  return api
+    .likeCard(cardId, isLiked)
+    .then((updatedCard) => {
+      return updatedCard; 
     })
     .catch((error) => {
-      console.error(`Ошибка при постановке лайка: ${error}`);
+      console.error('Ошибка при постановке/снятии лайка:', error);
+      throw error; 
     });
 }
 
-
-// Функция удаления лайка
+// Функция для обработки снятия лайка с карточки
 function handleUnlikeCard(cardId) {
-  api
+  return api
     .unlikeCard(cardId)
-    .then((newLikes) => {
-      cardList.updateLikes(cardId, newLikes);
+    .then((updatedCard) => {
+      return updatedCard; 
     })
     .catch((error) => {
       console.error(`Ошибка при удалении лайка: ${error}`);
+      throw error; 
     });
 }
+
+
 
 // Включение валидации форм
 editProfileValidator.enableValidation();
