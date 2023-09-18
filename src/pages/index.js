@@ -15,9 +15,8 @@ const profileAvatar = document.querySelector('.profile__avatar');
 const storedAvatarUrl = localStorage.getItem('avatar');
 
 if (storedAvatarUrl) {
-    profileAvatar.src = storedAvatarUrl;
+  profileAvatar.src = storedAvatarUrl;
 }
-
 
 // Создание объекта Api
 const api = new Api({
@@ -53,6 +52,21 @@ const avatarValidator = new FormValidator(
 );
 avatarValidator.enableValidation();
 
+// Получение данных о пользователе
+api.getUserInfo()
+  .then((userData) => {
+    userId = userData._id;
+    userInfo.setUserInfo(userData);
+    return api.getInitialCards();
+  })
+  .then((initialCards) => {
+    cardList.renderItems(initialCards);
+  })
+  .catch((error) => {
+    console.error(`Ошибка при загрузке данных с сервера: ${error}`);
+  });
+
+
 // Загрузка данных с сервера и добавление начальных карточек
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, initialCards]) => {
@@ -63,6 +77,14 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
   .catch((error) => {
     console.error(`Ошибка при загрузке данных с сервера: ${error}`);
   });
+
+window.addEventListener('load', () => {
+  const savedCards = localStorage.getItem('cards');
+  if (savedCards) {
+    const initialCards = JSON.parse(savedCards);
+    cardList.renderItems(initialCards);
+  }
+});
 
 // Создание валидатора для формы добавления карточки
 const addCardValidator = new FormValidator(
@@ -79,10 +101,29 @@ addCardValidator.enableValidation();
 
 // Создание попапа с формой добавления карточки
 const addCardPopup = new PopupWithForm('.popup_type-add', (data) => {
-  addCardToPage(data);
-  addCardPopup.close();
+  const originalButtonText = addCardPopup._submitButton.textContent;
+  addCardPopup.setSubmitButtonCaption('Сохранение...');
+  addCardPopup._submitButton.setAttribute('disabled', true);
+
+  api
+    .addCard(data)
+    .then((newCardData) => {
+      addCardToPage(newCardData);
+      addCardPopup.close();
+    })
+    .catch((error) => {
+      console.error(`Ошибка при создании карточки: ${error}`);
+    })
+    .finally(() => {
+      addCardPopup.setSubmitButtonCaption(originalButtonText);
+      addCardPopup._submitButton.removeAttribute('disabled');
+    });
 });
-addCardPopup.setEventListeners();
+
+formElementAdd.addEventListener('submit', (e) => {
+  e.preventDefault();
+  addCardPopup.submitForm();
+});
 
 // Создание валидатора для формы редактирования профиля
 const editProfileValidator = new FormValidator(
@@ -124,19 +165,18 @@ function handleCardDelete(cardId, cardElement) {
 // Создание карточки
 function createCardElement(cardData) {
   const isOwner = cardData.owner && cardData.owner._id === userId;
-  const isLiked = cardData.likes ? cardData.likes.some((like) => like._id === userId) : false;
-  const card = new Card(
-    cardData,
-    '#card-template',
-    userId,
-    {
-      handleCardClick: openImagePopup,
-      handleCardDelete: handleCardDelete,
-      handleCardLike: handleCardLike,
-      handleCardDeleteLike: handleUnlikeCard,
-    }
-  );
-
+  const isLiked = cardData.likes
+    ? cardData.likes.some((like) => like._id === userId)
+    : false;
+  const card = new Card(cardData, '#card-template', userId, {
+    handleCardClick: openImagePopup,
+    handleCardLike: handleCardLike,
+    handleCardDelete: (cardId) => {
+      handleCardDelete(cardId);
+      cardId: cardData._id;
+      card._toggleLike();
+    },
+  });
   return card.createCardElement();
 }
 
@@ -172,7 +212,7 @@ api
   .catch((error) => {
     console.error(`Ошибка при загрузке данных с сервера: ${error}`);
   });
-  
+
 // Получение элементов формы редактирования профиля
 const nameInput = formElementEdit.querySelector('.popup__input_type_name');
 const bioInput = formElementEdit.querySelector('.popup__input_type_bio');
@@ -194,10 +234,9 @@ function openEditProfilePopup() {
   const userData = userInfo.getUserInfo();
   nameInput.value = userData.name;
   bioInput.value = userData.bio;
-  editProfileValidator.resetValidation(); 
+  editProfileValidator.resetValidation();
   popupEditProfile.open();
 }
-
 
 // Обработчик сабмита формы редактирования профиля
 function handleFormEditSubmit(data) {
@@ -219,7 +258,6 @@ function handleFormEditSubmit(data) {
       popupEditProfile._submitButton.removeAttribute('disabled');
     });
 }
-
 
 // Функция для обработки лайка карточки
 function handleCardLike(cardId, isLiked) {
@@ -253,12 +291,6 @@ buttonOpenAddCardPopup.addEventListener('click', () => {
   addCardPopup.open();
 });
 
-// Добавление обработчика для кнопки открытия попапа редактирования профиля
-buttonOpenEditProfilePopup.addEventListener('click', () => {
-  openEditProfilePopup();
-  popupEditProfile.setSubmitButtonCaption('Сохранить');
-});
-
 // Создание и настройка попапа удаления карточки
 const popupDelete = new PopupWithDelete('.popup_type-delete', (cardId) => {
   api
@@ -283,6 +315,12 @@ popupWithAvatar.setEventListeners();
 // Добавление обработчика для кнопки открытия попапа смены аватара
 const buttonOpenAvatarEditPopup = document.querySelector('.profile__avatar-edit-button');
 buttonOpenAvatarEditPopup.addEventListener('click', () => {
-  avatarValidator.resetValidation(); 
+  avatarValidator.resetValidation();
   popupWithAvatar.open();
 });
+
+// Добавление обработчика для кнопки открытия попапа редактирования профиля
+buttonOpenEditProfilePopup.addEventListener('click', () => {
+  openEditProfilePopup();
+});
+

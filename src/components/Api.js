@@ -39,7 +39,7 @@ class Api {
     addCard({ name, link }) {
       return fetch(`${this.baseUrl}/cards`, {
         method: 'POST',
-        headers: this._headers,
+        headers: this.headers,
         body: JSON.stringify({
           name,
           link,
@@ -61,14 +61,14 @@ class Api {
         headers: this.headers,
       }).then(this._checkResponse);
     }
-  
+    
     unlikeCard(cardId) {
       return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: this.headers,
       }).then(this._checkResponse);
     }
-  
+    
     updateAvatar(avatarUrl) {
       return fetch(`${this.baseUrl}/users/me/avatar`, {
           method: 'PATCH',
