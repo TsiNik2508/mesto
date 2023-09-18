@@ -1,17 +1,16 @@
 class Card {
   constructor(cardData, cardSelector, userId, { handleCardClick, handleCardLike, handleDeleteClick }) {
-    this._name = cardData.name;
-    this._link = cardData.link;
-    this._likes = cardData.likes;
-    this._ownerId = cardData.owner._id;
-    this._cardId = cardData._id;
+    this._name = cardData.name || '';
+    this._link = cardData.link || '';
+    this._likes = cardData.likes || [];
+    this._ownerId = cardData.owner && cardData.owner._id ? cardData.owner._id : '';
+    this._cardId = cardData._id || '';
     this._cardSelector = cardSelector;
     this._userId = userId;
     this._handleCardClick = handleCardClick;
     this._handleCardLike = handleCardLike;
     this._handleDeleteClick = handleDeleteClick;
   }
-
   _getTemplate() {
     const cardElement = document.querySelector(this._cardSelector).content.querySelector('.element').cloneNode(true);
     return cardElement;
@@ -31,7 +30,7 @@ class Card {
     this._likeCounter.textContent = this._likes.length;
 
     if (this._ownerId !== this._userId) {
-      this._deleteButton.remove();
+      this._deleteButton.style.display = 'none'; 
     }
 
     this._setEventListeners();
@@ -51,8 +50,6 @@ class Card {
     }
   }
 
-
-
   _unlikeCard() {
     if (this._isLiked()) {
       this._handleCardLike(this._cardId, false)
@@ -62,9 +59,8 @@ class Card {
         .catch((error) => {
           console.error(`Ошибка при снятии лайка: ${error}`);
         });
+    }
   }
-}
-
 
   _isLiked() {
     return this._likes.some((like) => like._id === this._userId);
@@ -76,7 +72,6 @@ class Card {
     this._element.querySelector('.element__button').classList.toggle('element__button_active');
     this._element.querySelector('.element__like-count').textContent = likes.length;
   }
-
 
   _setEventListeners() {
     this._elementImage.addEventListener('click', () => {

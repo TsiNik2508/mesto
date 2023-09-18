@@ -39,7 +39,7 @@ class Api {
     addCard({ name, link }) {
       return fetch(`${this.baseUrl}/cards`, {
         method: 'POST',
-        headers: this.headers,
+        headers: this._headers,
         body: JSON.stringify({
           name,
           link,
@@ -71,18 +71,23 @@ class Api {
   
     updateAvatar(avatarUrl) {
       return fetch(`${this.baseUrl}/users/me/avatar`, {
-        method: 'PATCH',
-        headers: {
-          authorization: this.headers.authorization,
-          'Content-Type': this.headers['Content-Type'],
-        },
-        body: JSON.stringify({ avatar: avatarUrl }),
+          method: 'PATCH',
+          headers: {
+              authorization: this.headers.authorization,
+              'Content-Type': this.headers['Content-Type'],
+          },
+          body: JSON.stringify({ avatar: avatarUrl }),
       })
-        .then(this._checkResponse)
-        .catch((error) => {
+      .then(this._checkResponse)
+      .then((userData) => {
+          localStorage.setItem('avatar', avatarUrl);
+          return userData;
+      })
+      .catch((error) => {
           console.error(`Ошибка при обновлении аватара: ${error}`);
-        });
-    }
+      });
+  }
+  
   
     toggleLike(cardId, isLiked) {
       const method = isLiked ? 'PUT' : 'DELETE';

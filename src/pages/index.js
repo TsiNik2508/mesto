@@ -3,13 +3,21 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
-import { Section}  from '../components/Section.js';
+import { Section } from '../components/Section.js';
 import Api from '../components/Api.js';
 import PopupWithDelete from '../components/PopupWithDelete.js';
 import PopupWithAvatar from '../components/PopupWithAvatar.js';
 import { Card } from '../components/Card.js';
 
 let userId;
+
+const profileAvatar = document.querySelector('.profile__avatar');
+const storedAvatarUrl = localStorage.getItem('avatar');
+
+if (storedAvatarUrl) {
+    profileAvatar.src = storedAvatarUrl;
+}
+
 
 // Создание объекта Api
 const api = new Api({
@@ -43,31 +51,18 @@ const avatarValidator = new FormValidator(
   },
   formElementAvatar
 );
+avatarValidator.enableValidation();
 
-// Загрузка данных с сервера и добавление начальных карточек 
-Promise.all([api.getUserInfo(), api.getInitialCards()]) 
-  .then(([userData, initialCards]) => { 
-    console.log(initialCards);
-    userId = userData._id; 
-    userInfo.setUserInfo(userData); 
-    cardList.renderItems(initialCards); 
- 
-    api.addCard({ 
-      name: 'Рик и Морти', 
-      link: 'https://srisovki.com/wp-content/uploads/2020/10/u_d0a8.jpg', 
-    }) 
-      .then((newCardData) => { 
-        console.log(newCardData); 
-        addCardToPage(newCardData); 
-      }) 
-      .catch((error) => { 
-        console.error(`Ошибка при добавлении карточки: ${error}`); 
-      }); 
-  }) 
-  .catch((error) => { 
-    console.error(`Ошибка при загрузке данных с сервера: ${error}`); 
-  }); 
-
+// Загрузка данных с сервера и добавление начальных карточек
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
+    userId = userData._id;
+    userInfo.setUserInfo(userData);
+    cardList.renderItems(initialCards);
+  })
+  .catch((error) => {
+    console.error(`Ошибка при загрузке данных с сервера: ${error}`);
+  });
 
 // Создание валидатора для формы добавления карточки
 const addCardValidator = new FormValidator(
@@ -80,6 +75,7 @@ const addCardValidator = new FormValidator(
   },
   formElementAdd
 );
+addCardValidator.enableValidation();
 
 // Создание попапа с формой добавления карточки
 const addCardPopup = new PopupWithForm('.popup_type-add', (data) => {
@@ -92,20 +88,16 @@ addCardPopup.setEventListeners();
 const userInfo = new UserInfo({
   nameSelector: '.profile__title',
   bioSelector: '.profile__bio',
+  avatarSelector: '.profile__avatar',
 });
 
 // Функция удаления карточки
-function handleCardDelete(cardId) {
-  if (!cardId) {
-    console.error('Неверный cardId');
-    return;
-  }
-
+function handleCardDelete(cardId, cardElement) {
   const popupDelete = new PopupWithDelete('.popup_type-delete', () => {
     api
       .deleteCard(cardId)
       .then(() => {
-        cardList.removeItem(cardId);
+        cardList.removeItem(cardElement);
         popupDelete.close();
       })
       .catch((error) => {
@@ -120,63 +112,26 @@ function handleCardDelete(cardId) {
 function createCardElement(cardData) {
   const isOwner = cardData.owner && cardData.owner._id === userId;
   const isLiked = cardData.likes ? cardData.likes.some((like) => like._id === userId) : false;
-const card = new Card(
-  cardData,
-  '#card-template',
-  userId,
-  {
-    handleCardClick: openImagePopup,
-    handleCardDelete: handleCardDelete,
-    handleCardLike: handleCardLike,
-    handleCardDeleteLike: handleUnlikeCard,
-  }
-);
-
-  
-  
+  const card = new Card(
+    cardData,
+    '#card-template',
+    userId,
+    {
+      handleCardClick: openImagePopup,
+      handleCardDelete: handleCardDelete,
+      handleCardLike: handleCardLike,
+      handleCardDeleteLike: handleUnlikeCard,
+    }
+  );
 
   return card.createCardElement();
 }
 
-// Создание валидатора для формы редактирования профиля
-const editProfileValidator = new FormValidator(
-  {
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible',
-  },
-  formElementEdit
-);
-
-// Добавление обработчика для кнопки открытия формы добавления карточки
-buttonOpenAddCardPopup.addEventListener('click', () => {
-  addCardValidator.resetValidation();
-  addCardPopup.open();
-});
-
 // Функция добавления карточки на страницу
 function addCardToPage(cardData) {
-  api
-    .getUserInfo()
-    .then((userData) => {
-      userId = userData._id;
-      userInfo.setUserInfo(userData);
-      return api.getInitialCards();
-    })
-    .then((initialCards) => {
-      cardList.setItems(initialCards);
-      initialCards.forEach((cardData) => {
-        const card = createCardElement(cardData); 
-        cardList.addItem(card); 
-      });
-    })
-    .catch((error) => {
-      console.error(`Ошибка при загрузке данных с сервера: ${error}`);
-    });
+  const card = createCardElement(cardData);
+  cardList.addItem(card);
 }
-
 
 // Создание списка карточек на странице
 const cardList = new Section(
@@ -245,16 +200,17 @@ function handleFormEditSubmit(data) {
       popupEditProfile.setSubmitButtonCaption('Сохранить');
     });
 }
+
 // Функция для обработки лайка карточки
 function handleCardLike(cardId, isLiked) {
   return api
     .likeCard(cardId, isLiked)
     .then((updatedCard) => {
-      return updatedCard; 
+      return updatedCard;
     })
     .catch((error) => {
       console.error('Ошибка при постановке/снятии лайка:', error);
-      throw error; 
+      throw error;
     });
 }
 
@@ -263,27 +219,25 @@ function handleUnlikeCard(cardId) {
   return api
     .unlikeCard(cardId)
     .then((updatedCard) => {
-      return updatedCard; 
+      return updatedCard;
     })
     .catch((error) => {
       console.error(`Ошибка при удалении лайка: ${error}`);
-      throw error; 
+      throw error;
     });
 }
 
+// Добавление обработчика для кнопки открытия формы добавления карточки
+buttonOpenAddCardPopup.addEventListener('click', () => {
+  addCardValidator.resetValidation();
+  addCardPopup.open();
+});
 
-
-// Включение валидации форм
-editProfileValidator.enableValidation();
-addCardValidator.enableValidation();
-avatarValidator.enableValidation();
-
-// Добавление обработчиков для кнопок открытия попапов
+// Добавление обработчика для кнопки открытия попапа редактирования профиля
 buttonOpenEditProfilePopup.addEventListener('click', () => {
   openEditProfilePopup();
   popupEditProfile.setSubmitButtonCaption('Сохранить');
 });
-buttonOpenAddCardPopup.addEventListener('click', () => addCardPopup.open());
 
 // Создание и настройка попапа удаления карточки
 const popupDelete = new PopupWithDelete('.popup_type-delete', (cardId) => {
@@ -297,7 +251,6 @@ const popupDelete = new PopupWithDelete('.popup_type-delete', (cardId) => {
       console.error(`Ошибка при удалении карточки: ${error}`);
     });
 });
-
 popupDelete.setEventListeners();
 
 // Создание и настройка попапа смены аватара
@@ -305,7 +258,6 @@ const popupWithAvatar = new PopupWithAvatar('.popup_type-avatar', (avatarUrl) =>
   const profileAvatar = document.querySelector('.profile__avatar');
   profileAvatar.src = avatarUrl;
 }, api);
-
 popupWithAvatar.setEventListeners();
 
 // Добавление обработчика для кнопки открытия попапа смены аватара
