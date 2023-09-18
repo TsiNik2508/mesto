@@ -201,7 +201,10 @@ function openEditProfilePopup() {
 
 // Обработчик сабмита формы редактирования профиля
 function handleFormEditSubmit(data) {
+  const originalButtonText = popupEditProfile._submitButton.textContent;
   popupEditProfile.setSubmitButtonCaption('Сохранение...');
+  popupEditProfile._submitButton.setAttribute('disabled', true);
+
   api
     .editUserInfo(data)
     .then((userData) => {
@@ -212,9 +215,11 @@ function handleFormEditSubmit(data) {
       console.error(`Ошибка при редактировании профиля: ${error}`);
     })
     .finally(() => {
-      popupEditProfile.setSubmitButtonCaption('Сохранить');
+      popupEditProfile.setSubmitButtonCaption(originalButtonText);
+      popupEditProfile._submitButton.removeAttribute('disabled');
     });
 }
+
 
 // Функция для обработки лайка карточки
 function handleCardLike(cardId, isLiked) {

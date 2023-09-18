@@ -27,7 +27,6 @@ class PopupWithForm extends Popup {
 
   open() {
     super.open();
-    this._submitButton.textContent = 'Сохранение...';
   }
 
   setSubmitButtonCaption(caption) {
