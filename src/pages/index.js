@@ -84,6 +84,19 @@ const addCardPopup = new PopupWithForm('.popup_type-add', (data) => {
 });
 addCardPopup.setEventListeners();
 
+// Создание валидатора для формы редактирования профиля
+const editProfileValidator = new FormValidator(
+  {
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible',
+  },
+  formElementEdit
+);
+editProfileValidator.enableValidation();
+
 // Создание объекта UserInfo
 const userInfo = new UserInfo({
   nameSelector: '.profile__title',
@@ -159,7 +172,7 @@ api
   .catch((error) => {
     console.error(`Ошибка при загрузке данных с сервера: ${error}`);
   });
-
+  
 // Получение элементов формы редактирования профиля
 const nameInput = formElementEdit.querySelector('.popup__input_type_name');
 const bioInput = formElementEdit.querySelector('.popup__input_type_bio');
@@ -181,8 +194,10 @@ function openEditProfilePopup() {
   const userData = userInfo.getUserInfo();
   nameInput.value = userData.name;
   bioInput.value = userData.bio;
+  editProfileValidator.resetValidation(); 
   popupEditProfile.open();
 }
+
 
 // Обработчик сабмита формы редактирования профиля
 function handleFormEditSubmit(data) {
@@ -263,5 +278,6 @@ popupWithAvatar.setEventListeners();
 // Добавление обработчика для кнопки открытия попапа смены аватара
 const buttonOpenAvatarEditPopup = document.querySelector('.profile__avatar-edit-button');
 buttonOpenAvatarEditPopup.addEventListener('click', () => {
+  avatarValidator.resetValidation(); 
   popupWithAvatar.open();
 });

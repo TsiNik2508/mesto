@@ -19,6 +19,10 @@
   opacity: 0.8;
 }
 
+.popup__button.show {
+  display: inline-block; 
+}
+
 @media screen and (max-width: 720px) {
   .popup__button  {
     height: 46px;
