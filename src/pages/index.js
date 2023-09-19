@@ -122,8 +122,10 @@ const addCardPopup = new PopupWithForm('.popup_type-add', (data) => {
 
 formElementAdd.addEventListener('submit', (e) => {
   e.preventDefault();
-  addCardPopup.submitForm();
+  addCardPopup.setSubmitButtonCaption('Сохранить');
+  addCardPopup._submitHandler(addCardPopup._getInputValues());
 });
+
 
 // Создание валидатора для формы редактирования профиля
 const editProfileValidator = new FormValidator(
@@ -290,6 +292,7 @@ buttonOpenAddCardPopup.addEventListener('click', () => {
   addCardValidator.resetValidation();
   addCardPopup.open();
 });
+
 
 // Создание и настройка попапа удаления карточки
 const popupDelete = new PopupWithDelete('.popup_type-delete', (cardId) => {

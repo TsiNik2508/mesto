@@ -87,26 +87,6 @@ class Api {
         console.error(`Ошибка при обновлении аватара: ${error}`);
     });
 }
-
-
-  toggleLike(cardId, isLiked) {
-    const method = isLiked ? 'PUT' : 'DELETE';
-    const url = `${this.baseUrl}/cards/likes/${cardId}`;
-
-    return fetch(url, {
-      method: method,
-      headers: this.headers,
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error(`Ошибка: ${res.status}`);
-      })
-      .catch((error) => {
-        console.error(`Ошибка при обновлении лайка: ${error}`);
-      });
-  }
 }
 
 export default Api;

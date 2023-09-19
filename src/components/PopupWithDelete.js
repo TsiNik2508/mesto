@@ -6,7 +6,6 @@ class PopupWithDelete extends Popup {
     this._handleFormSubmit = handleFormSubmit;
     this._form = this._popup.querySelector('.popup__form');
     this._submitButton = this._form.querySelector('.popup__button');
-    this._cardId = null;
   }
 
   setCardId(cardId) {

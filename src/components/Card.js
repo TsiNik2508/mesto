@@ -92,8 +92,6 @@ class Card {
       this._unlikeCard();
     }
   }
-  
-  
 
   _isLiked() {
     return this._likes.some((like) => like._id === this._userId);

@@ -4,7 +4,6 @@ class PopupWithImage extends Popup {
     super(popupSelector);
     this._popupImage = this._popup.querySelector('.popup__img');
     this._popupCaption = this._popup.querySelector('.popup__card-name');
-    this._cardId = null; 
   }
 
   setCardId(cardId) {

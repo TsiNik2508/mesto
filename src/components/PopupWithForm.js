@@ -23,9 +23,11 @@ class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener('submit', (event) => {
+    this._form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      this._submitHandler(this._getInputValues());
+      this.setSubmitButtonCaption('Сохранение...');
+      await this._submitHandler(this._getInputValues()); 
+      this.close(); 
     });
   }
 
@@ -37,19 +39,11 @@ class PopupWithForm extends Popup {
     this._submitButton.textContent = caption;
   }
 
-submitForm() {
-  this.setSubmitButtonCaption('Сохранение...'); 
-  this._submitHandler(this._getInputValues());
-}
-
-
-close() {
-  super.close();
-  this._form.reset();
-  this.setSubmitButtonCaption('Сохранить'); 
-}
-
-  
+  close() {
+    super.close();
+    this._form.reset();
+    this.setSubmitButtonCaption('Сохранить'); 
+  }
 }
 
 export default PopupWithForm;
