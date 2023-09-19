@@ -323,4 +323,3 @@ buttonOpenAvatarEditPopup.addEventListener('click', () => {
 buttonOpenEditProfilePopup.addEventListener('click', () => {
   openEditProfilePopup();
 });
-
