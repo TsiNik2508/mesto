@@ -1,92 +1,72 @@
 class Api {
   constructor(options) {
-    this.baseUrl = options.baseUrl;
-    this.headers = options.headers;
+    this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
   }
 
   _checkResponse(res) {
     if (res.ok) {
-      console.log('Successful response:', res);
       return res.json();
     }
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   getUserInfo() {
-    return fetch(`${this.baseUrl}/users/me`, {
-      headers: {
-        authorization: this.headers.authorization,
-        'Content-Type': this.headers['Content-Type'],
-        cohort: 'cohort-75',
-      },
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
   getInitialCards() {
-    return fetch(`${this.baseUrl}/cards`, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
   editUserInfo(data) {
-    return fetch(`${this.baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this.headers,
+      headers: this._headers,
       body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
 
-  addCard({ name, link }) {
-    return fetch(`${this.baseUrl}/cards`, {
+  addCard(data) {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify({
-        name,
-        link,
-      }),
+      headers: this._headers,
+      body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
 
   deleteCard(cardId) {
-    console.log('Deleting card with ID:', cardId);
-    return fetch(`${this.baseUrl}/cards/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this.headers,
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
   likeCard(cardId) {
-    return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: 'PUT',
-      headers: this.headers,
+      headers: this._headers,
     }).then(this._checkResponse);
   }
-  
+
   unlikeCard(cardId) {
-    return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: 'DELETE',
-      headers: this.headers,
+      headers: this._headers,
     }).then(this._checkResponse);
   }
-  
+
   updateAvatar(avatarUrl) {
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
-        method: 'PATCH',
-        headers: {
-            authorization: this.headers.authorization,
-            'Content-Type': this.headers['Content-Type'],
-        },
-        body: JSON.stringify({ avatar: avatarUrl }),
-    })
-    .then(this._checkResponse)
-    .then((userData) => {
-        localStorage.setItem('avatar', avatarUrl);
-        return userData;
-    })
-    .catch((error) => {
-        console.error(`Ошибка при обновлении аватара: ${error}`);
-    });
-}
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({ avatar: avatarUrl }),
+    }).then(this._checkResponse);
+  }
 }
 
 export default Api;

@@ -13,13 +13,19 @@ class UserInfo {
   }
 
   setUserInfo(data) {
-    this._nameElement.textContent = data.name;
-    this._bioElement.textContent = data.about;
-    this._id = data._id; 
+    if (data.name) {
+      this._nameElement.textContent = data.name;
+    }
+    if (data.about) {
+      this._bioElement.textContent = data.about;
+    }
+    if (data._id) {
+      this._id = data._id;
+    }
   }
 
   getUserId() {
-    return this._id; 
+    return this._id;
   }
 }
 

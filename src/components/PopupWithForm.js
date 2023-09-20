@@ -7,10 +7,6 @@ class PopupWithForm extends Popup {
     this._form = this._popup.querySelector('.popup__form');
     this._inputs = Array.from(this._form.querySelectorAll('.popup__input'));
     this._submitButton = this._form.querySelector('.popup__button');
-    this._closeButton = this._popup.querySelector('.popup__close'); 
-    this._closeButton.addEventListener('click', () => {
-      this.close();
-    });
   }
 
   _getInputValues() {
@@ -23,11 +19,19 @@ class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener('submit', async (event) => {
+    this._form.addEventListener('submit', (event) => {
       event.preventDefault();
       this.setSubmitButtonCaption('Сохранение...');
-      await this._submitHandler(this._getInputValues()); 
-      this.close(); 
+      this._submitHandler(this._getInputValues())
+        .then(() => {
+          this.close();
+        })
+        .catch((error) => {
+          console.error(`Ошибка при отправке данных на сервер: ${error}`);
+        })
+        .finally(() => {
+          this.setSubmitButtonCaption('Сохранить');
+        });
     });
   }
 
@@ -42,7 +46,6 @@ class PopupWithForm extends Popup {
   close() {
     super.close();
     this._form.reset();
-    this.setSubmitButtonCaption('Сохранить'); 
   }
 }
 
