@@ -1,72 +1,94 @@
-class Api {
-  constructor(options) {
-    this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+export default class Api {
+  constructor(config) {
+    this._baseUrl = config.baseUrl;
+    this._headers = config.headers;
   }
 
+  // Приватный метод для проверки ответа на запрос API
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(`Ошибка ${res.status}`);
   }
 
+  // Приватный метод для отправки оббщенного запроса
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse);
+  }
+
+  // Публичный метод для получения информации профиля
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
-    }).then(this._checkResponse);
+    return this._request(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      headers: this._headers
+    });
   }
 
+  // Публичный метод для получения начальных карточек
   getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
-    }).then(this._checkResponse);
+    return this._request(`${this._baseUrl}/cards`, {
+      method: "GET",
+      headers: this._headers
+    });
   }
 
+  // Публичный метод для редактирования информации профиля
   editUserInfo(data) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: 'PATCH',
+    return this._request(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(data),
-    }).then(this._checkResponse);
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about
+      })
+    });
   }
 
-  addCard(data) {
-    return fetch(`${this._baseUrl}/cards`, {
-      method: 'POST',
+  // Публичный метод для добавления новой карточки
+  addCard(card) {
+    return this._request(`${this._baseUrl}/cards`, {
+      method: "POST",
       headers: this._headers,
-      body: JSON.stringify(data),
-    }).then(this._checkResponse);
+      body: JSON.stringify({
+        name: card.name,
+        link: card.link
+      })
+    });
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
-      method: 'DELETE',
-      headers: this._headers,
-    }).then(this._checkResponse);
+  // Публичный метод для удаления карточки
+  deleteCard(id) {
+    return this._request(`${this._baseUrl}/cards/${id}`, {
+      method: "DELETE",
+      headers: this._headers
+    });
   }
 
-  likeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: 'PUT',
+  // Публичный метод для обновления аватара
+  updateAvatar(data) {
+    return this._request(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
       headers: this._headers,
-    }).then(this._checkResponse);
+      body: JSON.stringify({
+        avatar: data.avatar
+      })
+    });
   }
 
-  unlikeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: 'DELETE',
-      headers: this._headers,
-    }).then(this._checkResponse);
+  // Публичный метод для постановки лайка
+  putLike(id) {
+    return this._request(`${this._baseUrl}/cards/${id}/likes`, {
+      method: "PUT",
+      headers: this._headers
+    });
   }
 
-  updateAvatar(avatarUrl) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
-      headers: this._headers,
-      body: JSON.stringify({ avatar: avatarUrl }),
-    }).then(this._checkResponse);
+  // Публичный метод для удаления лайка
+  deleteLike(id) {
+    return this._request(`${this._baseUrl}/cards/${id}/likes`, {
+      method: "DELETE",
+      headers: this._headers
+    });
   }
 }
-
-export default Api;

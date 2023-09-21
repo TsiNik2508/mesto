@@ -1,6 +1,6 @@
 .element__like-count {
   color: black;
-  display: block;
+  display: none;
   position: absolute;
   bottom: 13px;
   right: 26.5px;

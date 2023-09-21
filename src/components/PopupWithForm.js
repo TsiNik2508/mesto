@@ -1,52 +1,55 @@
-import Popup from './Popup.js';
+import Popup from "./Popup.js"; 
+export default class PopupWithForm extends Popup {
+  constructor(selector, handlerFormSubmit) {
+    super(selector); // Вызываем конструктор обычного класса и передаем ему селектор можального окна
 
-class PopupWithForm extends Popup {
-  constructor(popupSelector, submitHandler) {
-    super(popupSelector);
-    this._submitHandler = submitHandler;
-    this._form = this._popup.querySelector('.popup__form');
-    this._inputs = Array.from(this._form.querySelectorAll('.popup__input'));
-    this._submitButton = this._form.querySelector('.popup__button');
+    this._handlerFormSubmit = handlerFormSubmit; // Принимаем функцию-обработчик отправки формы
+    this._inputList = Array.from(this._popup.querySelectorAll('.popup__input')); // Находим и сохраняем список инпутов
+    this._form = this._popup.querySelector('.popup__form'); // Находим форму
+    this._button = this._popup.querySelector('.popup__button'); // Находим кнопку
+    this._buttonText = this._button.textContent; // Сохраняем изначальный текст
   }
 
+  // Приватный метод для получения инпутов
   _getInputValues() {
-    const values = {};
-    this._inputs.forEach((input) => {
-      values[input.name] = input.value;
-    });
-    return values;
+    const inputValues = {};
+    this._inputList.forEach((input) => {
+      inputValues[input.name] = input.value;
+    })
+
+    return inputValues;
   }
 
-  setEventListeners() {
-    super.setEventListeners();
-    this._form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      this.setSubmitButtonCaption('Сохранение...');
-      this._submitHandler(this._getInputValues())
-        .then(() => {
-          this.close();
-        })
-        .catch((error) => {
-          console.error(`Ошибка при отправке данных на сервер: ${error}`);
-        })
-        .finally(() => {
-          this.setSubmitButtonCaption('Сохранить');
-        });
-    });
+  // Метод для отображения статуса загрузки
+  renderLoading(isLoading, loadingText = "Сохранение...") {
+    if (isLoading) {
+      this._button.textContent = loadingText; // Изменяем текст на кнопки во время загрузки
+    } else {
+      this._button.textContent = this._buttonText; // Восстанавливаем изначальный текст пнсле загрузки
+    }
   }
 
-  open() {
-    super.open();
+  // Метод для установки инпутов
+  setInputValues(data) {
+    this._inputList.forEach((input) => {
+      input.value = data[input.name];
+    })
   }
 
-  setSubmitButtonCaption(caption) {
-    this._submitButton.textContent = caption;
-  }
-
+  // Переопредел метод для закрытия после отправки формы
   close() {
-    super.close();
-    this._form.reset();
+    super.close(); // Вызываем метод close из обычного класса
+    this._form.reset(); // Сбрасываем значения инпутов
+  }
+
+  // Переопределенный метод для установки обработчиков событий на окно с формой
+  setEventListeners() {
+    super.setEventListeners(); // Вызываем метод setEventListeners из обычного класса
+
+    // Добавляем события submit для обработки отправки данных формы
+    this._popup.addEventListener('submit', (evt) => {
+      evt.preventDefault(); // Отменяем стандартное поведение формы
+      this._handlerFormSubmit(this._getInputValues()); // Вызываем обработчик отправки
+    })
   }
 }
-
-export default PopupWithForm;
