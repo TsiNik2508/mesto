@@ -9,6 +9,9 @@ import Api from '../components/Api.js';
 import PopupDelete from '../components/PopupWithDelete.js';
 import Card from "../components/Card.js";
 import { 
+  formEditAvatarModalWindow,
+  formCardModalWindow,
+  formEditModalWindow,
   avatarEditButton,
   validationConfig,
   apiConfig,
@@ -18,7 +21,7 @@ import {
   profileName,
   profileBio,
   profileAvatar
-} from '../components/constans.js';
+} from '../utils/constans.js';
 
 let userId;
 
@@ -110,10 +113,6 @@ function handleSubmitAddCard(name, link) {
 }
 
 // Создаем экземпляры валидаторов для форм
-const formEditModalWindow = document.querySelector('.popup__form_edit');
-const formCardModalWindow = document.querySelector('.popup__form_add');
-const formEditAvatarModalWindow = document.querySelector('.popup__form_type-avatar');
-
 const formEditValidator = new FormValidator(validationConfig, formEditModalWindow);
 const formCardValidator = new FormValidator(validationConfig, formCardModalWindow);
 const formEditAvatarValidator = new FormValidator(validationConfig, formEditAvatarModalWindow);
@@ -170,10 +169,6 @@ function handleSubmitEditForm(data) {
 
 // Добавляем обработчик клика для редактирования профиля
 buttonEditProfile.addEventListener('click', () => {
-  const formEditModalWindow = document.querySelector('.popup_type-edit .popup__form');
-  const formEditValidator = new FormValidator(validationConfig, formEditModalWindow);
-  formEditValidator.enableValidation();
-
   popupEditProfile.setInputValues(userInfo.getUserInfo());
   popupEditProfile.open();
   formEditValidator.resetValidation();

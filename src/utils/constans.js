@@ -26,6 +26,10 @@ const avatarEditButton = document.querySelector('.profile__avatar-edit-button');
 const popups = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_type-edit');
 const InitialCards = '.elements';
+const formEditModalWindow = document.querySelector('.popup_type-edit .popup__form');
+const formCardModalWindow = document.querySelector('.popup__form_add');
+const formEditAvatarModalWindow = document.querySelector('.popup__form_type-avatar');
+
 
 // Конфигурация для валидации форм
 const validationConfig = {
@@ -36,6 +40,9 @@ const validationConfig = {
 };
 
 export {
+  formEditAvatarModalWindow,
+  formCardModalWindow,
+  formEditModalWindow,
   popupAddCard,
   closeButtons,
   buttonEditProfile,
