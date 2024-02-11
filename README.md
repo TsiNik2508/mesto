@@ -1,3 +1,5 @@
+# Ru
+
 # Проект "Mesto"
 
 ## Описание
@@ -117,3 +119,126 @@
 ## Демо страницы
 
  ### [Демо](https://tsinik2508.github.io/mesto/)
+
+ # En 
+
+ # Project "Mesto"
+
+## Description
+
+The "Mesto" project was created as part of the educational program at [Yandex.Practicum](https://practicum.yandex.com) in the ["Web Developer"](https://practicum.yandex.com/web-development/) specialization. It is an interactive web page that utilizes HTML, CSS, and JavaScript to create dynamic content. The project is a web application that allows users to share their photos and view photos from other users.
+
+## Technology Stack
+
+- HTML
+- CSS
+- JavaScript
+- Git
+- BEM methodology (Nested)
+- Webpack
+- API
+- OOP
+
+## Project Features
+
+The "Mesto" project includes the following key features:
+
+1. **Interactive photo gallery**: Users can add photos, view photos from other users, and like them.
+
+2. **Profile editing**: Users can edit their name, description, and avatar.
+
+3. **Photo deletion**: Users can delete their photos from the gallery.
+
+4. **Likes**: Users can like photos from other users.
+
+## Application of OOP (Object-Oriented Programming)
+
+The "Mesto" project is developed using object-oriented programming (OOP) principles. The main aspects of OOP implemented in the project include:
+
+- **Classes and objects**: Classes are used to create objects such as cards and users. Each class has properties and methods associated with the respective object.
+
+- **Encapsulation**: Data and methods associated with objects are encapsulated within classes. This allows for clearer organization of code and ensures its modularity.
+
+- **Inheritance and polymorphism**: Inheritance is used in the project to create subclasses, and polymorphism is used to handle similar operations on different objects.
+
+## API Usage
+
+The "Mesto" project interacts with external data through an API. In particular, it uses the API to perform the following operations:
+
+- Retrieving user information and a list of cards from the server.
+
+- Adding new cards and user information to the server.
+
+- Deleting cards from the server.
+
+- Liking and disliking cards.
+
+## Integration with Webpack
+
+The project is integrated with the Webpack build tool. This allows for project optimization and provides the following capabilities:
+
+- Minification and optimization of JavaScript, CSS, HTML, and images.
+
+- Code splitting into modules to improve maintainability and scalability.
+
+- Automatic page reload in development mode.
+
+- Handling HTML templates and injecting necessary dependencies.
+
+- Adding caching and optimizing resource loading.
+
+## Future Improvements
+
+The "Mesto" project is actively under development. The following improvements are planned:
+
+- Porting the project to React to improve scalability.
+
+- Adding user registration and authentication capabilities to the page.
+
+## Code Description
+
+### Project Structure
+
+The "Mesto" project is organized as follows:
+
+- `src` - directory with project source code.
+  - `blocks` - page styles.
+  - `components` - components used on the pages.
+  - `images` - images and graphics.
+  - `pages` - index.css and index.js files.
+  - `utils` - auxiliary utilities and constants.
+  - `vendor` - fonts on the page.
+  - `index.html` - application page.
+
+## Running the Project on a Local Server
+
+To run the project on a local server, you will need Node.js and npm (JavaScript package manager).
+
+1. **Cloning the Repository:** First, clone the repository to your computer:
+
+   ```bash
+   git clone https://github.com/TsiNik2508/mesto.git
+
+2. **Installing Dependencies:** Navigate to the project directory and execute the command to install dependencies:
+    ```bash
+    cd mesto
+    npm install
+
+3. **Running the Application:**
+- To run the application in development mode, use the command:
+
+   ```bash
+   npm run dev
+   
+- To run the application in production mode (without automatic reloading), use the command:
+
+   ```bash
+   npm start
+   
+4. **Opening in Browser:** Open a web browser and go to http://localhost:8080 to view your local "Mesto" application.
+
+---
+## Page Demo
+
+ ### [Demo](https://tsinik2508.github.io/mesto/)
+
